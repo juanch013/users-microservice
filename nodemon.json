@@ -1,0 +1,8 @@
+{
+    "nodemonConfig": {
+        "watch": ["src"],
+        "ext": "ts",
+        "ignore": ["src/**/*.spec.ts"],
+        "exec": "npx nest start --watch"
+    }
+}

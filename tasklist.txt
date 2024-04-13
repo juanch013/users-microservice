@@ -1,0 +1,14 @@
+------------- users ------------- 
+CREATE USER x
+
+GET USER BY ID x
+GET USERS BY COMPANY x
+GET ALL USERS ----- NOSE SI QUIERO ESTO ES MEDIO PEGRILOSO
+ACTIVATE USERS X
+
+logic DELETE USERS x
+update role
+------------- login ------------- 
+LOGIN
+RENEWTOKEN
+LOGOUT
