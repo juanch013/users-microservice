@@ -10,7 +10,6 @@ async function bootstrap() {
     transform: true, 
     disableErrorMessages: false, 
     exceptionFactory: (errors) => {
-      // Opcional: personaliza el objeto de error
       const message = errors.map(error => `${error.property} - ${Object.values(error.constraints).join(', ')}`);
       return new BadRequestException(message);
     },

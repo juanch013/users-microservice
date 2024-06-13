@@ -1,9 +1,15 @@
-import { Module } from '@nestjs/common';
-import { ConnectionService } from './connection.service';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RoleEntity, UsersEntity } from 'src/entities';
+import { SecurityMiddleware } from 'libs/middlewares/encrypt';
+import ConnectionService from './connection.service';
 
 @Module({
-    imports:[],
+    imports:[
+        TypeOrmModule.forFeature([UsersEntity,RoleEntity]), 
+    ],
     controllers: [],
     providers: [ConnectionService],
+    exports:[ConnectionService]
 })
-export class ConnectionModule {}
+export default class ConnectionModule{}

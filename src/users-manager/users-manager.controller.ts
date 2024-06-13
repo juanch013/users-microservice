@@ -1,32 +1,30 @@
-// controllers/user.controller.ts
-import { Request, Response } from 'express';
 import  UserManagerService  from './users-manager.service';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { INTERFACES } from '../../libs/constants/index'
-import { CreateUserDto } from './dtos/CreateUserDto.cto';
-import { ActivateUserDto } from './dtos/ActivateUserDto.dto'
-import { GetUsersByIdDto } from './dtos/GetUsersDto.dto';
-import { GetUsersByCompanyDto } from './dtos/GetUsersByCompanyDto.dto'
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { GetUsersByCompanyDto } from './dtos/GetUsersByCompany.dto';
+import { GetUsersByIdDto } from './dtos/GetUsersById.dto';
 import { AssignRoleDto } from './dtos/AssignRole.dto';
-@Controller('users')
+import { ActivateUserDto } from './dtos/ActivateUser.dto';
+import { CreateUserDto } from './dtos/CreateUser.dto';
+import CONSTANTS from '../../libs/constants'
+@Controller(CONSTANTS.STRINGS.USER_CONTROLLER_ROUTE)
 export default class UserManagerController {
     constructor(
       private readonly userManagerService:UserManagerService
     ){}
 
-  @Post('get-users-by-company')
-  async getAllUsers(@Body() body:GetUsersByCompanyDto) {
+  @Get('get-users-by-company')
+  async getAllUsers(@Query() params:GetUsersByCompanyDto) {
     try {
-      return await this.userManagerService.getUsersByCompany(body.id);
+      return await this.userManagerService.getUsersByCompany(params);
     } catch (error) {
       console.log(error.message,"context: getAllUsers")
     }  
   }
 
-  @Post('get-users-by-id')
-  async getUserById(@Body() body:GetUsersByIdDto) {
+  @Get('get-users-by-id')
+  async getUserById(@Query() params:GetUsersByIdDto) {
     try {
-      return await this.userManagerService.getUserById(body.ids);
+      return await this.userManagerService.getUserById(params.ids);
     } catch (error) {
       console.log(error.message,"context: getUserById")
     }  
@@ -52,7 +50,16 @@ export default class UserManagerController {
   }
 
   @Put('assign-role')
-  async assignRole(body:AssignRoleDto) {
+  async assignRole(@Body() body:AssignRoleDto) {
+    try {
+      return await this.userManagerService.assignRole(body)
+    } catch (error) {
+      console.log(error.message,"context: updateUser")
+    }  
+  }
+
+  @Put('update-pass')
+  async updatePass(@Body() body:AssignRoleDto) {
     try {
       return await this.userManagerService.assignRole(body)
     } catch (error) {
@@ -69,4 +76,5 @@ export default class UserManagerController {
       console.log(error.message,"context: deleteUser")
     }  
   };
+
 }

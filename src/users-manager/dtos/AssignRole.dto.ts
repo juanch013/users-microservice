@@ -1,13 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength, IsInt, IsUUID } from 'class-validator';
+import { IsArray, IsString, IsUUID } from 'class-validator';
 
 export class AssignRoleDto {
-  @IsNotEmpty()
-  @IsUUID(4)
-  @IsString()
-  roleId: string;
+    @IsString()
+    @IsUUID()
+    userId:string
 
-  @IsNotEmpty()
-  @IsUUID(4)
-  @IsString()
-  userId: string;
+    @IsString()
+    @IsUUID()
+    roleId:string
 }

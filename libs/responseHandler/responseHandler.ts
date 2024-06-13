@@ -1,4 +1,6 @@
-export default function handleRsponse(code:number,message:string,data:any){
+import { IResponseHandlerResponse } from "libs/constants/interfaces"
+
+export default function handleRsponse(code:number,message:string,data:any):IResponseHandlerResponse{
     try {
         return {
             code,

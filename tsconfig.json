@@ -18,5 +18,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "typeRoots": ["node_modules/@types", "src/types"],
+    "paths": {
+      "auth-library": [
+        "../auth-library/auth-library/dist"
+      ]
+    },
   }
 }

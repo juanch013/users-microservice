@@ -1,5 +1,4 @@
-import AuthManagerService from './auth-manager.service'; // Asegúrate de que la ruta sea correcta
-import UserService from '../users-manager/users-manager.service';
+import AuthManagerService from './auth-manager.service';
 import { Body, Controller, Post } from '@nestjs/common';
 import { LoginDto } from './dtos/login.dto';
 

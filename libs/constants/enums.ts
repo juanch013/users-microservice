@@ -4,3 +4,9 @@ export enum UserRoleEnum {
     EMPLOYEE,
     CLIENT
 }
+
+export enum UserStatusEnum{
+    UNACTIVE,
+    ACTIVE,
+    DELTED
+}
