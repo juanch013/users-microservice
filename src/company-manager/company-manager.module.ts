@@ -5,26 +5,31 @@ import CompanyManagerController from './infrastructure/company.controller';
 import CompanyDomainService from './domain/services/companyDomain.service';
 import { companyApplicationService } from './application/services/companyApplication.service';
 import { CompanyModuleOptions } from 'libs/constants/types';
-import { companyRepository } from './domain/ports/companyService';
+import { DocumentTemplatesRepository, companyRepository } from './domain/ports/companyService';
 import CompanyRepositoryAdapter from './domain/adapters/CompanyRepositoryAdapter';
-import RoleRepositoryAdapter from '../role-manager/domain/adapters/RoleRepositoryAdapter';
 import CONSTANTS from 'libs/constants';
-import { roleRepository } from 'src/role-manager/domain/ports/roleService';
+import { MongooseModule } from '@nestjs/mongoose';
+import { DocumentFormatSchema } from 'src/schemas/document-format';
+import { DocuementTemplateRepositoryAdapter } from './domain/adapters/DocumentTemplatesRepositoryAdapter';
 
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([CompanyEntity,RoleEntity])
+    TypeOrmModule.forFeature([CompanyEntity,RoleEntity]),
+    MongooseModule.forFeature([{ name: 'templates', schema: DocumentFormatSchema }])
   ],
   controllers: [CompanyManagerController],
   providers: [
     CompanyDomainService,
     CompanyRepositoryAdapter,
-    RoleRepositoryAdapter,
     companyApplicationService,
     {
       provide: CONSTANTS.STRINGS.COMPANY_REPOSITORY,
       useClass: CompanyRepositoryAdapter,
+    },
+    {
+      provide: CONSTANTS.STRINGS.TEMPLATES_REPOSITORY,
+      useClass: DocuementTemplateRepositoryAdapter,
     }
   ],
 })
@@ -47,11 +52,12 @@ export class CompanyManagerModule {
 
     const CompanyServiceProvider = {
       provide: CONSTANTS.STRINGS.COMPANY_SERVICE,
-      useFactory(companyRepository: companyRepository) {
-        return new CompanyDomainService(companyRepository)
+      useFactory(companyRepository: companyRepository,templatesRepository: DocumentTemplatesRepository) {
+        return new CompanyDomainService(companyRepository,templatesRepository)
       },
       inject: [
         CONSTANTS.STRINGS.COMPANY_REPOSITORY,
+        CONSTANTS.STRINGS.TEMPLATES_REPOSITORY
       ]
     }
 

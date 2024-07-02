@@ -2,6 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import CONSTANTS from '../../libs/constants/index'
 import { UsersEntity,CompanyEntity,RoleEntity,ActionsEntity } from 'src/entities';
 import { Injectable } from '@nestjs/common';
+import { MongooseModuleFactoryOptions, MongooseModuleOptions } from '@nestjs/mongoose';
 
 @Injectable()
 export default class ConnectionService{
@@ -19,6 +20,13 @@ export default class ConnectionService{
             synchronize: true,
             migrationsRun:true,
             migrations:[]
+        }
+        return connectionObject;
+    }
+
+    getMongoConnection():MongooseModuleFactoryOptions {
+        const connectionObject:MongooseModuleOptions = {
+            uri:'mongodb://localhost:27017/company-templates'
         }
         return connectionObject;
     }

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { CompanyEntity } from "src/entities";
 import { DeepPartial, FindManyOptions } from "typeorm";
-import { CompanyService } from "../ports/companyService";
+import { CompanyService, DocumentTemplatesRepository } from "../ports/companyService";
 import {companyRepository} from '../ports/companyService'
 import CONSTANTS from "libs/constants";
 
@@ -9,6 +9,7 @@ import CONSTANTS from "libs/constants";
 export default class CompanyDomainService implements CompanyService {
     constructor(
         @Inject(CONSTANTS.STRINGS.COMPANY_REPOSITORY) private companyRepository: companyRepository,
+        @Inject(CONSTANTS.STRINGS.TEMPLATES_REPOSITORY) private templatesRepository: DocumentTemplatesRepository
     ){}
 
     async find(options?: FindManyOptions<CompanyEntity>):Promise<CompanyEntity[]> {
@@ -16,8 +17,10 @@ export default class CompanyDomainService implements CompanyService {
             return await this.companyRepository.find(options)
         } catch (error) {
             console.log(error.message,error.stack,"context: find")
+            return null;
         }
     }
+    
     async updateCompany(company: CompanyEntity): Promise<CompanyEntity> {
         return await this.companyRepository.save(company)
     }
@@ -27,6 +30,7 @@ export default class CompanyDomainService implements CompanyService {
             return await this.companyRepository.find({where:{id:id},relations:['roles']})
         } catch (error) {
             console.log(error.message,error.stack,"context: findOneCompany")
+            return null;
         }
     }
 
@@ -35,6 +39,7 @@ export default class CompanyDomainService implements CompanyService {
             return await this.companyRepository.findOneById(id)
         } catch (error) {
             console.log(error.message,error.stack,"context: findOneCompany");
+            return null;
         }
     }
 
@@ -43,6 +48,7 @@ export default class CompanyDomainService implements CompanyService {
             return await this.companyRepository.exist(companyId)
         } catch (error) {
             console.log(error.message,error.stack,"context: findOneCompany");
+            return null;
         }
     }
 
@@ -51,6 +57,7 @@ export default class CompanyDomainService implements CompanyService {
             return await this.companyRepository.checkCompanyName(name)
         } catch (error) {
             console.log(error.message,error.stack,"context: findOneCompany");
+            return null;
         }
     }
 
@@ -59,6 +66,7 @@ export default class CompanyDomainService implements CompanyService {
             return this.companyRepository.create(companyCreateOptions)
         } catch (error) {
             console.log(error.message,error.stack,"context : createcompany")
+            return null;
         }
     }
 
@@ -67,7 +75,26 @@ export default class CompanyDomainService implements CompanyService {
             return this.companyRepository.save(company);
         } catch (error) {
             console.log(error.message,error.stack,"context : saveCompany")
-            
+            return null;
+        
+        }
+    }
+
+    async createDocumentTemplate(company:CompanyEntity,name:string,template:string){
+        try {
+            return await this.templatesRepository.create(company.id,name,template);
+        } catch (error) {
+            console.log(error.message,error.stack,"context : saveCompany")
+            return null;
+        }
+    }
+
+    async getTemplateByNameAndCompany(companyId:string,name:string){
+        try {
+            return await this.templatesRepository.findByNameAndCompany(companyId,name);
+        } catch (error) {
+            console.log(error.message,error.stack,"context : saveCompany")
+            return null;
         }
     }
 

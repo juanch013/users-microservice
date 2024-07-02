@@ -2,9 +2,57 @@ import { CompanyService } from "src/company-manager/domain/ports/companyService"
 import { companyApplication } from "../companyApplication";
 import { IResponseHandlerResponse } from "libs/constants/interfaces";
 import handleRsponse from "libs/responseHandler/responseHandler";
+import { CompanyEntity } from "src/entities";
+import { create } from "domain";
 
 export class companyApplicationService implements companyApplication {
     constructor(private company: CompanyService) {}
+
+    async getTemplateByNameAndCompany(companyId: string, name: string): Promise<IResponseHandlerResponse> {
+        try {
+            const findRet = await this.company.getTemplateByNameAndCompany(companyId,name)
+
+            if(!findRet){
+                return handleRsponse(400,"template not found",{})
+            }
+
+            return handleRsponse(200,"template detail",findRet);
+
+        } catch (error) {
+            console.log(error.message, error.stack, "context: createDocumentTemplate")
+            return handleRsponse(500,"internal error",{})
+        }
+    }
+
+    async createDocumentTemplate(company: CompanyEntity, name: string, template: string): Promise<IResponseHandlerResponse> {
+        try {
+            const createResp = await this.company.createDocumentTemplate(company,name,template)
+
+            if(!createResp){
+                return handleRsponse(500,"error creating document template",{})
+            }
+
+            return handleRsponse(400,"document template created successfully",createResp)
+        } catch (error) {
+            console.log(error.message, error.stack, "context: createDocumentTemplate")
+            return handleRsponse(500,"internal error",{})
+        }
+    }
+
+    async getCompanyById(companyId: string): Promise<IResponseHandlerResponse> {
+        try {
+            const company = await this.company.findOneById(companyId);
+
+            if(!company){
+                return handleRsponse(400,"company do not exist",{})
+            }
+
+            return handleRsponse(200,"company detail",company);
+        } catch (error) {
+            console.log(error.message, error.stack, "context: upgradeRoleVersion")
+            return handleRsponse(500,"internal error",{})
+        }
+    }
 
     async upgradeRoleVersion(companyId: string): Promise<IResponseHandlerResponse> {
         try{
@@ -25,7 +73,7 @@ export class companyApplicationService implements companyApplication {
             return handleRsponse(200,"company role updated successfully",updateResult);
         }catch(error){
             console.log(error.message, error.stack, "context: upgradeRoleVersion")
-            return null;
+            return handleRsponse(500,"internal error",{});
         }
     }
 
@@ -47,7 +95,7 @@ export class companyApplicationService implements companyApplication {
             return handleRsponse(201, "Company was successfully created", checkCompanyExist)
         } catch (error) {
             console.log(error.message, error.stack, "context: updateCompany")
-            return null;
+            return handleRsponse(500,"internal error",{});
         }
     }
 
@@ -61,7 +109,7 @@ export class companyApplicationService implements companyApplication {
             return handleRsponse(200, "Roles by company", roles)
         } catch (error) {
             console.log(error.message, error.stack, "context: getRolesCompany")
-            return null;
+            return handleRsponse(500,"internal error",{});
         }
     }
 
@@ -76,7 +124,7 @@ export class companyApplicationService implements companyApplication {
             return handleRsponse(201, "Company was successfully created", createResult)
         } catch (error) {
             console.log(error.message, error.stack, "context: createCompany")
-            return null;
+            return handleRsponse(500,"internal error",{});
         }
     }
 }

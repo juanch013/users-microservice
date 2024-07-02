@@ -12,7 +12,8 @@ import { RoleManagerModule } from 'src/role-manager/roleManager.module';
 import RoleRepositoryAdapter from 'src/role-manager/domain/adapters/RoleRepositoryAdapter';
 import { ActionManagerModule } from 'src/action-manager/actionManager.module';
 import { ActionManagerRepositoryAdapter } from 'src/action-manager/domain/adapters/ActionRepositoryAdapter';
-
+import { MongooseModule } from '@nestjs/mongoose';
+import { DocuementTemplateRepositoryAdapter } from 'src/company-manager/domain/adapters/DocumentTemplatesRepositoryAdapter';
 dotenv.config()
 
 
@@ -20,17 +21,26 @@ dotenv.config()
   imports: [
     AuthManagerModule,
     ConnectionModule,
+    
     TypeOrmModule.forRootAsync({
       imports:[ConnectionModule,CompanyManagerModule],
       inject:[ConnectionService],
       useFactory: async (connectionService: ConnectionService) => connectionService.getConnection(),
     }),
+
+    MongooseModule.forRootAsync({
+      imports:[ConnectionModule],
+      inject:[ConnectionService],
+      useFactory: async (connectionService: ConnectionService) => connectionService.getMongoConnection()
+    }),
+
     TypeOrmModule.forFeature([RoleEntity, ActionsEntity,ActionsEntity,CompanyEntity]),
 
     CompanyManagerModule.register({
       modules: [],
       adapters: {
         companyRepository: CompanyRepositoryAdapter,
+        templatesRepository: DocuementTemplateRepositoryAdapter
       }
     }),
 

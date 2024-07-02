@@ -2,7 +2,6 @@ import { DeepPartial } from "typeorm";
 import { ActionManagerRepository, ActionManagerService } from "../ports/actionService";
 import { ActionsEntity } from "src/entities";
 import { Inject, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
 import CONSTANTS from "libs/constants";
 
 @Injectable()
@@ -12,7 +11,7 @@ export class ActionManagerDomainService implements ActionManagerService{
         private actionRepository:ActionManagerRepository
     ){}
 
-    create(action:DeepPartial<ActionsEntity>):ActionsEntity | null {
+    create(action:DeepPartial<ActionsEntity>): ActionsEntity | null {
         try {
             return this.actionRepository.create(action);
         } catch (error) {
@@ -21,7 +20,7 @@ export class ActionManagerDomainService implements ActionManagerService{
         }
     }
 
-    async save(entity:ActionsEntity): Promise <ActionsEntity | null>{
+    async save(entity:ActionsEntity): Promise <ActionsEntity | null> {
         try {
             return await this.actionRepository.save(entity);
         } catch (error) {

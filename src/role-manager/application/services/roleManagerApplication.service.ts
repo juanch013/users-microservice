@@ -2,7 +2,6 @@ import { IResponseHandlerResponse } from "libs/constants/interfaces";
 import { RoleManagerApplication } from "../roleManagerApplication";
 import { RoleService } from "src/role-manager/domain/ports/roleService";
 import { CompanyService } from "src/company-manager/domain/ports/companyService";
-import { handleRetry } from "@nestjs/typeorm";
 import handleRsponse from "libs/responseHandler/responseHandler";
 
 export default class RoleManagerApplicationService implements  RoleManagerApplication{

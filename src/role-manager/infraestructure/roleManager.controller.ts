@@ -3,8 +3,6 @@ import CONSTANTS from "libs/constants";
 import { RoleManagerApplication } from "../application/roleManagerApplication";
 import { CreateRoleDto } from "./dtos/createRole.dto";
 import { companyApplication } from "src/company-manager/application/companyApplication";
-import { create } from "domain";
-import handleRsponse from "libs/responseHandler/responseHandler";
 
 
 @Controller('role')
