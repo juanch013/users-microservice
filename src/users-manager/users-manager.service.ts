@@ -2,7 +2,7 @@ import { BadRequestException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { RoleEntity, UsersEntity } from "src/entities";
 import { In, Repository } from 'typeorm';
-import CONSTANTS from "../../libs/constants";
+import {CONSTANTS} from "libs/constants";
 import handleRsponse from "libs/responseHandler/responseHandler";
 import { AssignRoleDto } from "./dtos/AssignRole.dto"
 import { retGetUsersByCredentials,ResponseBase } from "libs/constants/interfaces";
@@ -224,7 +224,14 @@ export default class UserManagerService {
 
     async findUserByEmail(email:string):Promise<UsersEntity | null>{
         try {
-          return await this.usersRepository.findOne({where:{email:email},relations:['role']})
+        //   return await this.usersRepository.findOne({where:{email:email},relations:['role','role.company','role.actions']})
+        return await this.usersRepository.createQueryBuilder("user")
+            .leftJoinAndSelect("user.role", "role")
+            .leftJoinAndSelect("role.company", "company")
+            .leftJoinAndSelect("role.actions", "actions")
+            .where("user.email = :email", { email: email })
+            .getOne()
+            
         } catch (error) {
           console.log(error, 'contexto: findUserByEmail');
         }

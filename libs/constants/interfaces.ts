@@ -1,5 +1,5 @@
 import { CompanyEntity, RoleEntity, UsersEntity } from "src/entities"
-import * as ENUMS from "./enums"
+import { UserStatusEnum } from "./enums"
 
 export interface ResponseBase{
     code:number,
@@ -13,7 +13,7 @@ export interface retGetUsersByCredentials{
     id:string
     roleId:string
     companyId:string,
-    status:ENUMS.UserStatusEnum
+    status:UserStatusEnum
 }
 
 export interface IUserEntity{
@@ -51,4 +51,11 @@ export interface IResponseHandlerResponse{
     code:number,
     data:any,
     message:string
+}
+
+export interface tokenUserData{
+    Id: string,
+    email: string,
+    role:string,
+    actions:string
 }

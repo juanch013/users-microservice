@@ -5,7 +5,7 @@ import { GetUsersByIdDto } from './dtos/GetUsersById.dto';
 import { AssignRoleDto } from './dtos/AssignRole.dto';
 import { ActivateUserDto } from './dtos/ActivateUser.dto';
 import { CreateUserDto } from './dtos/CreateUser.dto';
-import CONSTANTS from '../../libs/constants'
+import {CONSTANTS} from '../../libs/constants'
 @Controller(CONSTANTS.STRINGS.USER_CONTROLLER_ROUTE)
 export default class UserManagerController {
     constructor(

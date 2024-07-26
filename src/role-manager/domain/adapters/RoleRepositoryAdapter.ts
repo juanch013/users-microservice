@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { roleRepository } from "../ports/roleService"
 import { RoleEntity } from '../../../entities'
 import { InjectRepository } from "@nestjs/typeorm"; 
-import { DeepPartial, FindManyOptions, Repository } from "typeorm";
+import { DeepPartial, FindManyOptions, FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
 export default class RoleRepositoryAdapter implements roleRepository {
@@ -38,9 +38,9 @@ export default class RoleRepositoryAdapter implements roleRepository {
         }
     }
 
-    async findOneById(id: string): Promise<RoleEntity | null> {
+    async findOne(options:FindOneOptions<RoleEntity>): Promise<RoleEntity | null> {
         try {
-            return await this.roleRepository.findOne({where:{id:id}})
+            return await this.roleRepository.findOne(options)
         } catch (error) {
             console.log(error.message, error.stack, "context: findOne")
             return null;

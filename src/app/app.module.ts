@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AuthManagerModule } from '../auth-manager/auth-manager.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv'
@@ -14,6 +14,7 @@ import { ActionManagerModule } from 'src/action-manager/actionManager.module';
 import { ActionManagerRepositoryAdapter } from 'src/action-manager/domain/adapters/ActionRepositoryAdapter';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DocuementTemplateRepositoryAdapter } from 'src/company-manager/domain/adapters/DocumentTemplatesRepositoryAdapter';
+import { JwtMiddleware } from 'libs/middlewares/jwtMiddleware';
 dotenv.config()
 
 
@@ -62,4 +63,12 @@ dotenv.config()
   controllers: [],
   providers: [ConnectionService],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(JwtMiddleware)
+      .exclude({ path: 'auth/login', method: RequestMethod.ALL })
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+  
+}

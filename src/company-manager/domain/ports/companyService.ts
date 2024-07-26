@@ -13,6 +13,7 @@ export interface CompanyService{
     updateCompany(company:CompanyEntity):Promise<CompanyEntity | null>
     createDocumentTemplate(company:CompanyEntity,name:string,template:string):Promise<any| null>
     getTemplateByNameAndCompany(companyId:string,name:string):Promise<any>
+    findTemplateById(templateid:string):Promise<any>
 }
 
 export interface companyRepository{
@@ -28,4 +29,5 @@ export interface companyRepository{
 export interface DocumentTemplatesRepository{
     create(companyId: string, name: string, template: string):any
     findByNameAndCompany(companyId:string,name:string):any
+    findById(templateId):any
 }

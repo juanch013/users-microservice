@@ -10,4 +10,6 @@ export interface companyApplication {
     getCompanyById(companyId:string):Promise<IResponseHandlerResponse>
     createDocumentTemplate(company:CompanyEntity,name:string,template:string):Promise<IResponseHandlerResponse>
     getTemplateByNameAndCompany(companyId:string,name:string):Promise<IResponseHandlerResponse>
+    updateTemplate(templateId:string,template:string):Promise<IResponseHandlerResponse>
+    getTemplateById(templateId:string):Promise<IResponseHandlerResponse>
 }

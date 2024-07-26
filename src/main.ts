@@ -19,7 +19,7 @@ async function bootstrap() {
     },
   }));
 
-  const appPort = 3000
+  const appPort = 3001
   await app.listen(appPort,()=>{
     console.log("Running on port: ",appPort);
   });

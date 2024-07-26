@@ -1,6 +1,6 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CompanyEntity, RoleEntity } from 'src/entities';
-import CONSTANTS from 'libs/constants';
+import {CONSTANTS} from 'libs/constants';
 import { DynamicModule, Module } from '@nestjs/common';
 import RoleRepositoryAdapter from './domain/adapters/RoleRepositoryAdapter';
 import { CompanyManagerModule } from 'src/company-manager/company-manager.module';
@@ -11,6 +11,7 @@ import CompanyDomainService from 'src/company-manager/domain/services/companyDom
 import {roleRepository} from './domain/ports/roleService'
 import { companyApplicationService } from 'src/company-manager/application/services/companyApplication.service';
 import RoleManagerController from './infraestructure/roleManager.controller';
+import { ActionManagerApplicationService } from 'src/action-manager/application/services/actionManagerApplication.service';
 
 
 @Module({
@@ -24,6 +25,7 @@ import RoleManagerController from './infraestructure/roleManager.controller';
     RoleRepositoryAdapter,
     RoleManagerApplicationService,
     companyApplicationService,
+    ActionManagerApplicationService,
     {
       provide: CONSTANTS.STRINGS.ROLE_REPOSITORY,
       useClass: RoleRepositoryAdapter,

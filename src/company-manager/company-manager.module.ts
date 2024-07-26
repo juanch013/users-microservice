@@ -7,7 +7,7 @@ import { companyApplicationService } from './application/services/companyApplica
 import { CompanyModuleOptions } from 'libs/constants/types';
 import { DocumentTemplatesRepository, companyRepository } from './domain/ports/companyService';
 import CompanyRepositoryAdapter from './domain/adapters/CompanyRepositoryAdapter';
-import CONSTANTS from 'libs/constants';
+import {CONSTANTS} from 'libs/constants';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DocumentFormatSchema } from 'src/schemas/document-format';
 import { DocuementTemplateRepositoryAdapter } from './domain/adapters/DocumentTemplatesRepositoryAdapter';

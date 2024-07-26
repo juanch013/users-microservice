@@ -1,6 +1,6 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActionsEntity, CompanyEntity } from 'src/entities';
-import CONSTANTS from 'libs/constants';
+import {CONSTANTS} from 'libs/constants';
 import { DynamicModule, Module } from '@nestjs/common';
 import { CompanyManagerModule } from 'src/company-manager/company-manager.module';
 import { ActionsModuleoptions, RoleModuleOptions } from 'libs/constants/types';

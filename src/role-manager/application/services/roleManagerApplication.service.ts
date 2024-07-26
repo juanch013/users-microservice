@@ -10,6 +10,22 @@ export default class RoleManagerApplicationService implements  RoleManagerApplic
         private companyService: CompanyService
     ){}
 
+    async getRoleById(id: string): Promise<IResponseHandlerResponse> {
+        try {
+            const role = await this.roleService.findOne({where:{id:id}})
+
+            if(!role){
+                return handleRsponse(400,"Role does not exist",{})
+            }
+
+            return handleRsponse(200,"role detail",role)
+
+        } catch (error) {
+            console.log(error.message,error.stack,"context: createRole")
+            return handleRsponse(500,"internal error",{});
+        }
+    }
+
     async createRole(name: string, companyId: string): Promise<IResponseHandlerResponse> {
         try {
             const company = await this.companyService.findOneById(companyId);

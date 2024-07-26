@@ -1,7 +1,9 @@
 import { Body, Controller, Inject, Post } from "@nestjs/common";
-import CONSTANTS from "libs/constants";
+import {CONSTANTS} from "libs/constants";
 import { ActionManagerApplication } from "../application/actionManagerApplication";
 import { CreateActionDto } from "./dtos/createAction.dto";
+import { handleRetry } from "@nestjs/typeorm";
+import handleRsponse from "libs/responseHandler/responseHandler";
 
 @Controller("action")
 export class ActionManagerController{
@@ -14,7 +16,8 @@ export class ActionManagerController{
         try {
             return await this.actionApplication.createAction(body.name,body.url,body.companyId)
         } catch (error) {
-            
+            console.log(error.message.error.stack,"context: createAction")
+            return handleRsponse(500,"internal error",{})
         }
     }
 }

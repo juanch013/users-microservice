@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import CONSTANTS from '../../libs/constants/index'
+import {CONSTANTS} from '../../libs/constants/index'
 import { UsersEntity,CompanyEntity,RoleEntity,ActionsEntity } from 'src/entities';
 import { Injectable } from '@nestjs/common';
 import { MongooseModuleFactoryOptions, MongooseModuleOptions } from '@nestjs/mongoose';

@@ -2,7 +2,7 @@ import { DeepPartial } from "typeorm";
 import { ActionManagerRepository, ActionManagerService } from "../ports/actionService";
 import { ActionsEntity } from "src/entities";
 import { Inject, Injectable } from "@nestjs/common";
-import CONSTANTS from "libs/constants";
+import {CONSTANTS} from "libs/constants";
 
 @Injectable()
 export class ActionManagerDomainService implements ActionManagerService{
@@ -10,6 +10,15 @@ export class ActionManagerDomainService implements ActionManagerService{
         @Inject(CONSTANTS.STRINGS.ACTION_REPOSITORY)
         private actionRepository:ActionManagerRepository
     ){}
+
+    async getActionById(id: string): Promise<ActionsEntity | null> {
+        try {
+            return await this.actionRepository.findOne({where:{id:id}})
+        } catch (error) {
+            console.log(error.message,error.stack,"context: getActionById");
+            return null
+        }
+    }
 
     create(action:DeepPartial<ActionsEntity>): ActionsEntity | null {
         try {

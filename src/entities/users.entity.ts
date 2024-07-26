@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 import RoleEntity from './role.entity';
-import CONSTANTS from "../../libs/constants/index";
+import {CONSTANTS} from "../../libs/constants/index";
 import { UserStatusEnum } from 'libs/constants/enums';
 
 @Entity({ name: "users" })

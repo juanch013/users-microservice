@@ -4,9 +4,34 @@ import { IResponseHandlerResponse } from "libs/constants/interfaces";
 import handleRsponse from "libs/responseHandler/responseHandler";
 import { CompanyEntity } from "src/entities";
 import { create } from "domain";
+import { find } from "rxjs";
 
 export class companyApplicationService implements companyApplication {
     constructor(private company: CompanyService) {}
+
+    async updateTemplate(templateId: string, template: string): Promise<IResponseHandlerResponse> {
+        try {
+            
+        } catch (error) {
+            console.log(error.message,error.stack,"context: updateTemplate");
+            return handleRsponse(500,"internal error",{});
+        }
+    }
+
+    async getTemplateById(templateId: string): Promise<IResponseHandlerResponse> {
+        try {
+            const findRet = await this.company.findTemplateById(templateId);
+
+            if(!findRet){
+                return handleRsponse(400,"template do not exist",{});
+            }
+
+            return handleRsponse(200,"template detail",findRet)
+        } catch (error) {
+            console.log(error.message,error.stack,"context: updateTemplate");
+            return handleRsponse(500,"internal error",{});
+        }
+    }
 
     async getTemplateByNameAndCompany(companyId: string, name: string): Promise<IResponseHandlerResponse> {
         try {

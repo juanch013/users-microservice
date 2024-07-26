@@ -5,6 +5,15 @@ import { DocumentFormat } from "src/schemas/document-format";
 
 export class DocuementTemplateRepositoryAdapter implements DocumentTemplatesRepository{
     constructor(@InjectModel('templates') private DocumentTemplateModel: Model<DocumentFormat>){}
+
+    async findById(templateId: any) {
+        try {
+            await this.DocumentTemplateModel.findById(templateId);
+        } catch (error) {
+            console.log(error.message,error.stack,"context: findById")
+            return null
+        }
+    }
     
     async create(companyId: string, name: string, template: string) {
         try {

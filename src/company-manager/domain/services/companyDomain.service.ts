@@ -3,7 +3,7 @@ import { CompanyEntity } from "src/entities";
 import { DeepPartial, FindManyOptions } from "typeorm";
 import { CompanyService, DocumentTemplatesRepository } from "../ports/companyService";
 import {companyRepository} from '../ports/companyService'
-import CONSTANTS from "libs/constants";
+import {CONSTANTS} from "libs/constants";
 
 @Injectable()
 export default class CompanyDomainService implements CompanyService {
@@ -11,6 +11,15 @@ export default class CompanyDomainService implements CompanyService {
         @Inject(CONSTANTS.STRINGS.COMPANY_REPOSITORY) private companyRepository: companyRepository,
         @Inject(CONSTANTS.STRINGS.TEMPLATES_REPOSITORY) private templatesRepository: DocumentTemplatesRepository
     ){}
+
+    async findTemplateById(templateid: string): Promise<any> {
+        try {
+            return await this.templatesRepository.findById(templateid)
+        } catch (error) {
+            console.log(error.message,error.stack,"context: findTemplatebyId")
+            return null;
+        }
+    }
 
     async find(options?: FindManyOptions<CompanyEntity>):Promise<CompanyEntity[]> {
         try {
